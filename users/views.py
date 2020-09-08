@@ -4,14 +4,13 @@ from django.contrib.auth.models import User
 from users.serializers import UserSerializer
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.permissions import IsAuthenticated
+from django.views.decorators.http import require_http_methods
+from rest_framework import viewsets
+from rest_framework.decorators import permission_classes
 # Create your views here.
+from rest_framework.response import Response
 
-@csrf_exempt
-def list_users(request):
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
     permission_classes = (IsAuthenticated,)
-    if request.method == 'GET':
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return JsonResponse(serializer.data, status=200, safe=False)
-
-    return JsonResponse({'message':'Method Not Allowed'}, status=405)
