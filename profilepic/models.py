@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class File(models.Model):
-    user = models.CharField(blank=False, max_length=50)
+    username = models.CharField(blank=False, max_length=50)
     file = models.FileField(blank=False, null=False)
 
     def __str__(self):
